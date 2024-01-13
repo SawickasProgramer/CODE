@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+
+        }
+        .rate {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 75px;
+            margin: 10px;
+            border-bottom: 1px dotted black;
+
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="cointainer">
+        <h3>Pokemony dla zawodnika PRO TRI: <span id="ASIA KOD"></span></h3>
+        <h4> Ability </h4>
+        <div id="data-table">
+       
+        </div>
+    </div>
+
+    <script>
+
+        startApp();
+
+        async function startApp() {
+            const apiURL1 = "https://pokeapi.co/api/v2/pokemon/ditto";
+            const response = await fetch(apiURL1);
+            const data = await response.json();
+            // console.log(data);
+
+           processData(data);
+        }
+
+        function processData(data) {
+            console.log(data);
+
+            
+            const Jeden = data.abilities;
+            const DWA = data.base_experience;
+            const Trzy = data.forms;
+
+            
+            const dataTableDiv = document.getElementById("data-table");
+        
+            Jeden.forEach(function (el) {
+                console.log(el);
+                const ability = el.ability.name;
+                const ability1 = el.ability.url;
+                
+                const is_hidden = el.is_hidden;
+                const slot = el.slot;
+
+
+                addRateContent(ability, ability1, is_hidden, slot, dataTableDiv);
+            });
+        
+        }
+                function addRateContent(ability, ability1, is_hidden,slot,dataTableDiv){
+                    const el = document.createElement("div");
+                    el.classList.add("rate");
+
+                    el.innerHTML = `
+                    <div> ${ability} </div>
+                    <div> ${ability1} </div>
+                    <div> ${is_hidden} </div>
+                    <div> ${slot} </div> 
+                    `;
+                    
+                    dataTableDiv.append(el);
+                }
+        
+        
+        
+        
+        
+           
+        
+        
+        
+
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+            
