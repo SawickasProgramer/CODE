@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+        }
+        .rate {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 75px;
+            margin: 10px;
+            border-bottom: 1px dotted black;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="cointainer">
+        <h3>Pokemony dla zawodnika PRO TRI: <span id="ASIA KOD"></span></h3>
+
+        <div class="search wrapper">
+
+        <label for="search">Name of pokemon:</label> 
+        <input type="search" id="search">
+        <button id="mySearch">Search</button>
+        <ul>
+            <li>ability</li>
+            <li>base</li>
+            <li>forms</li>    
+            
+            <li><div id="data-table"></div></li>
+        </ul>
+
+        <div class="dataCards"></div>
+        <template>
+            <div class="first">
+            <div class="second"></div>   
+            <div class="third"></div> 
+            </div>
+            
+        </template>
+
+    
+    </div>
+
+        <h4> Ability </h4>
+        <div id="data-table">
+       
+        </div>
+    </div>
+
+    <script>
+
+        startApp();
+
+        /*async function startApp() {
+            const apiURL1 = "https://pokeapi.co/api/v2/pokemon/ditto";
+            https://pokeapi.co/api/v2/a
+            const response = await fetch(apiURL1);
+            const data = await response.json();
+            // console.log(data);
+            
+           processData(data);
+        }
+        */ 
+
+        fetch("https://pokeapi.co/api/v2/pokemon/ditto")
+            .then(res => res.json())
+            .then(data => {})
+
+        function processData(data) {
+            console.log(data);
+
+            const ability = data.abilities;
+            const base = data.base_experience;
+            const forms = data.forms;
+            
+            const dataTableDiv = document.getElementById("data-table");
+        
+            ability.forEach(function (el) {
+                console.log(el);
+                const ability = el.ability.name;
+                const ability1 = el.ability.url;
+                const is_hidden = el.is_hidden;
+                const slot = el.slot;
+
+                addRateContent(ability, ability1, is_hidden, slot, dataTableDiv);
+            });
+        }
+        
+                function addRateContent(ability, ability1, is_hidden,slot,dataTableDiv){
+                    const el = document.createElement("div");
+                    el.classList.add("rate");
+
+                    el.innerHTML = `
+                    <div> ${ability} </div>
+                    <div> ${ability1} </div>
+                    <div> ${is_hidden} </div>
+                    <div> ${slot} </div> 
+                    `;
+                    
+                    dataTableDiv.append(el);
+                }
+
+
+
+        
+        const input = document.querySelector('input');
+        const liItems= document.querySelectorAll('li');
+
+        const ability = document.querySelectorAll('ability');
+        ability.forEach(function (el) {
+                console.log(el);
+                const ability = el.ability.name;
+                const ability1 = el.ability.url;
+                const is_hidden = el.is_hidden;
+                const slot = el.slot;
+        })
+
+        const filterList = () => {
+            liItems.forEach(item =>{
+                const match = new RegExp(input.value, 'i').test(item.textContent)
+
+                if(!match) {
+                    item.style.display = 'none'
+                } else {
+                    item.style.display = 'block'
+                }
+            
+
+            })
+        }
+            input.addEventListener('keyup', filterList)
+        
+        let search;
+        document.getElementById("mySearch").onclick = function(){
+        search = document.getElementById("search").value;
+        console.log(search);
+
+        }
+    
+
+    </script>
+
+</body>
+</html>
