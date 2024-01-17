@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body{
+        display: flex;
+        justify-content: center;
+    }
+    .rate {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 75px;
+        margin: 10px;
+        border-bottom: 1px dotted black;
+    }
+</style>
+</head>
+<body>
+    <div class="search wrapper">
+    <label for="search">Name of pokemon:</label> 
+    <input type="search" id="search" data-search>
+
+    <div class="dataCards" data-user-cards-container></div>
+    <template data-user-template>
+        <div class="card">
+        <div class="name" data-name></div>   
+        <div class="url" data-url></div> 
+        </div>
+    </template>
+
+</body>
+
+<script>
+    const userCardTemplate = document.querySelector("[data-user-template]")
+    const userCardContainer = document.querySelector("[data-user-cards-container]")
+    const searchInput = document.querySelector("[data-search]")
+
+    let users = []
+
+    searchInput.addEventListener("input", e => {
+        const value = e.target.value
+        console.log(users)
+    users.forEach(user => {
+        const isVisible = game_index.version.name.includes(value) || game_index.version.url.includes(value)
+        game_index.classList.toggle("hide", !isVisible)
+    })
+
+    
+    })
+
+    
+    fetch("https://pokeapi.co/api/v2/pokemon/ditto")
+            .then(res => res.json())
+            .then(data => {
+            users = data.map(user => {
+                const card = userCardTemplate.content.cloneNode(true).children[0]
+                const name = card.querySelector("[data-name]")
+                const url = card.querySelector("[data-url]")
+                name.textContent = version.name
+                url.textContent = version.url
+                userCardContainer.append(card)
+                return {name: game_index.version.name, url: game_index.version.url, element: card }
+            })
+
+            })
+</script>
+</html>
