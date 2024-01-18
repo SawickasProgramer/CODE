@@ -38,33 +38,37 @@
     const userCardContainer = document.querySelector("[data-user-cards-container]")
     const searchInput = document.querySelector("[data-search]")
 
-    let users = []
+    const users = []
+    function renderUsers (filter) {
+        userCardContainer.forEach(el => el.remove());
+        
+        const fileredUsers = users.filter((user) => game_index.version.name.includes(value));
+            
+        fileredUsers.forEach(user => {
+            const card = userCardTemplate.content.cloneNode(true).children[0]
+            const name = card.querySelector("[data-name]")
+            const url = card.querySelector("[data-url]")
+            name.textContent = version.name
+            url.textContent = version.url
+            userCardContainer.append(card)
+        })
+    }
+    function loadUsers() {   
+        fetch("https://pokeapi.co/api/v2/pokemon/ditto")
+                .then(res => res.json())
+                .then(data => {
+                    users = data;
+                })
+    }
 
-    searchInput.addEventListener("input", e => {
+    
+    // czary mary
+    searchInput.addEventListener("keyup", e => {
         const value = e.target.value
-        console.log(users)
-    users.forEach(user => {
-        const isVisible = game_index.version.name.includes(value) || game_index.version.url.includes(value)
-        game_index.classList.toggle("hide", !isVisible)
+        renderUsers(value)
     })
+    loadUsers()
 
     
-    })
-
-    
-    fetch("https://pokeapi.co/api/v2/pokemon/ditto")
-            .then(res => res.json())
-            .then(data => {
-            users = data.map(user => {
-                const card = userCardTemplate.content.cloneNode(true).children[0]
-                const name = card.querySelector("[data-name]")
-                const url = card.querySelector("[data-url]")
-                name.textContent = version.name
-                url.textContent = version.url
-                userCardContainer.append(card)
-                return {name: game_index.version.name, url: game_index.version.url, element: card }
-            })
-
-            })
 </script>
 </html>
